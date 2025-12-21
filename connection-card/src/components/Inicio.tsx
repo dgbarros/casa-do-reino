@@ -1,3 +1,5 @@
+"use client";
+
 import { Instagram, Facebook, Youtube, Copy, Check } from "lucide-react";
 import { useState } from "react";
 
