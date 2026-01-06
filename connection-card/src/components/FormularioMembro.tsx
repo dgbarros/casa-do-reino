@@ -4,12 +4,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { formularioSchema } from "../lib/validators";
+import { enviarFormulario } from "../services/formulario";
+import { Check } from "lucide-react";
 
 const schema = z.object({
   nome: z.string().min(3, "O nome precisa ter pelo menos 3 letras"),
   telefone: z.string().min(10, "Informe um telefone válido"),
   pedidoOracao: z.string().optional(),
-  interesses: z.array(z.string()).min(1, "Selecione pelo menos um interesse")
+  interesses: z.array(z.string()).min(1, "Selecione pelo menos um interesse"),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -29,7 +32,8 @@ export default function FormularioMembro() {
   const onSubmit = async (data: FormData) => {
     setEnviando(true);
     try {
-      console.log("Realizando envio do formulário",data)
+      console.log("Envio de dados", data);
+      // await enviarFormulario(data);
       setSucesso(true);
     } catch (error) {
       alert("Erro ao enviar");
@@ -42,7 +46,11 @@ export default function FormularioMembro() {
     return (
       <div className="h-full flex flex-col items-center justify-center p-6 text-center animate-in zoom-in">
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-          <span className="text-2xl"></span>
+          <Check
+            className="text-green-600 animate-in zoom-in duration-300"
+            size={32}
+            strokeWidth={3}
+          />
         </div>
         <h2 className="text-xl font-bold text-gray-900">
           Recebemos seu contato!
@@ -65,7 +73,7 @@ export default function FormularioMembro() {
       <h2 className="text-2xl font-bold text-gray-900 mb-1">
         Cartão de Conexão
       </h2>
-     
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="space-y-1">
           <label className="text-xs font-semibold text-gray-700 uppercase">
@@ -81,7 +89,6 @@ export default function FormularioMembro() {
           )}
         </div>
 
-        {/* TELEFONE */}
         <div className="space-y-1">
           <label className="text-xs font-semibold text-gray-700 uppercase">
             Telefone

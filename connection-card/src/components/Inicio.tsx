@@ -63,7 +63,6 @@ export default function Inicio() {
         />
       </div>
 
-      {/* Área de Generosidade */}
       <div className="w-full bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
         <h3 className="font-semibold text-gray-900 mb-4">Generosidade</h3>
         <div
