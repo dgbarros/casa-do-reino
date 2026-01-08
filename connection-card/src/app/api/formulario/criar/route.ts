@@ -3,9 +3,19 @@ import { sendMail } from "@/src/lib/mailer";
 import { formularioSchema } from "@/src/lib/validators";
 import { success } from "zod";
 import { ZodError } from "zod";
-
+import { rateLimit } from "@/src/lib/rateLimit";
 
 export async function POST(req: Request) {
+  const ip = 
+    req.headers.get("x-forwarded-for") ?? 
+    "unknown";
+
+    if(!rateLimit(ip)) {
+      return NextResponse.json(
+        {error: "Muitas requisições. Tente novamente mais tarde."},
+        {status: 429}
+      );
+    }
   try {
     const body = await req.json();
 
